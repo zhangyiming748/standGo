@@ -25,23 +25,23 @@ func HttpPostJson(addHeaders map[string]string, data interface{}, urlPath string
 	if err != nil {
 		return
 	}
-	
+
 	req, err := http.NewRequest(http.MethodPost, urlPath, bytes.NewReader(bytesData))
 	if err != nil {
 		return
 	}
-	
+
 	req.Header.Set("Content-Type", "application/json;charset=UTF-8")
 	for headerKey, headerVal := range addHeaders {
 		req.Header.Set(headerKey, headerVal)
 	}
-	
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return
 	}
 	defer resp.Body.Close()
-	
+
 	return io.ReadAll(resp.Body)
 }
 
@@ -136,7 +136,7 @@ func HttpProxyFileUploadCustom(file *multipart.FileHeader, fileKey, filename str
 	addHeaders map[string]string, urlPath string) (body []byte, err error) {
 	buf := new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
-	
+
 	formFile, err := writer.CreateFormFile(fileKey, filename)
 	if err != nil {
 		log.Fatalf("Upload Create form file failed: %v", err)
